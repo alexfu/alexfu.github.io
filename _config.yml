@@ -68,3 +68,4 @@ theme: hueman
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
   type: git
+  repo: git@github.com:alexfu/alexfu.github.io.git
