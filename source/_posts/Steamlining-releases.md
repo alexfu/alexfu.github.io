@@ -1,4 +1,4 @@
-title: Steamlining releases
+title: Streamline releases with Android
 date: 2015-07-16 21:03:18
 categories: Android
 tags:
