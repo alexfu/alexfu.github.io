@@ -4,6 +4,7 @@ categories: Android
 tags:
   - Android
   - Gradle
+comments: true
 ---
 When it comes to releasing a build, it usually goes without saying that there are a few housekeeping tasks that need accomplished before an actual release goes out. Things like tagging and pushing your current branch to your remote repository could be automated so that you can focus on what’s important.
 

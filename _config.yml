@@ -69,3 +69,5 @@ theme: hueman
 deploy:
   type: git
   repo: git@github.com:alexfu/alexfu.github.io.git
+
+disqus_shortname: alexfublog

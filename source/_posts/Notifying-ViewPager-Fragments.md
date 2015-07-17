@@ -1,6 +1,7 @@
 title: "Notifying ViewPager Fragments"
 date: 2013-06-17 12:01
 categories: Android
+comments: true
 ---
 As the title suggests, this post is about notifying Fragments in a ViewPager. Even though PagerAdapter has a `notifyDataSetChanged()` method, this method is for a different purpose. There are undoubtly more than one way to [solve this problem][1], but I found this method to be very simple to implement and easy to understand. <!-- more -->
 

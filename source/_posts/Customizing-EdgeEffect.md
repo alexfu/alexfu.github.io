@@ -1,6 +1,7 @@
 title: "Customizing EdgeEffect"
 date: 2013-12-11 19:51
 categories: Android
+comments: true
 ---
 If there's one thing Android is good for, it's being able to customize almost every aspect of your application, down to the nitty gritty. One area that some developers/designers may overlook when customizing is the EdgeEffect.
 
