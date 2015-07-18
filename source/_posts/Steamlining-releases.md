@@ -69,13 +69,13 @@ Now becomes...
 android {
   defaultConfig {
     applicationId "com.myapp"
-    versionCode getVersionCode()
-    versionName getVersionName()
+    versionCode project.ext.versionCode
+    versionName project.ext.versionName
   }
 }
 ```
 
-Where both `getVersionCode()` and `getVersionName()` obtains the `versionCode` and `versionName` from a file that looks like this:
+Where both `project.ext.versionCode` and `project.ext.versionCode` references the `versionCode` and `versionName`. We dynamically generate `versionCode` and `versionName` from a JSON file that looks like this:
 
 ```json
 {  
@@ -86,7 +86,24 @@ Where both `getVersionCode()` and `getVersionName()` obtains the `versionCode` a
 }
 ```
 
-Now we can work on building a Gradle task that will increment the `buildNumber` for our beta releases.
+Now we can work on building a Gradle task that will increment the version for our beta and production releases. First thing that needs to be done is to read in the above JSON file into an object...
+
+```groovy
+def versionFile = file("/path/to/version/file")
+def versionJSON = getJSON(versionFile)
+def versionCode = versionJSON.buildNumber
+def versionName = "${versionJSON.major}.${versionJSON.minor}.${versionJSON.revision}"
+
+// Expose as extra properties at project level
+ext.versionCode = versionCode
+ext.versionName = versionName
+
+def getJSON(file) {
+  return new JsonSlurper().parseText(file.text)
+}
+```
+
+Then we can build out our task...
 
 ```groovy
 task prepareBetaRelease << {
@@ -95,24 +112,33 @@ task prepareBetaRelease << {
     throw new GradleException("You must NOT have any changes in your working copy!")
   }
 
-  // Increment build number. This function accepts a Map as a parameter and
-  // saves the updated version numbers to a file for us.
-  updateVersion([buildNumber: getBuildNumber() + 1])
+  // Update version code
+  versionJSON.buildNumber += 1
+  versionCode = versionJSON.buildNumber
+  versionFile.write(new JsonBuilder(versionJSON).toPrettyString())
 
-  // Stage our changed file
+  // Apply version code to all variants. This is necessary
+  // so when we build the APK, it gets the updated values
+  android.applicationVariants.all { variant ->
+    variant.mergedFlavor.versionCode = versionCode
+  }
+
+  // Add changes
   def changes = grgit.status().unstaged.getAllChanges()
   grgit.add(update: true, patterns: changes)
 
   // Commit
   grgit.commit(message: 'Prepare for beta release')
 
-  // Create a git tag and push
-  def tagName = "v${project.ext.versionName}.${project.ext.versionCode}"
-  grgit.tag.add(name: tagName, message: "Beta release ${tagName}")
-  grgit.push(refsOrSpecs: [tagName])
-
-  // Push changes
+  // Push
   grgit.push()
+
+  // Tag
+  def tagName = "v${versionName}.${versionCode}"
+  grgit.tag.add(name: tagName, message: "Beta release ${tagName}")
+
+  // Push
+  grgit.push(refsOrSpecs: [tagName])
 }
 ```
 
