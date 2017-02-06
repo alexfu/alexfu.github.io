@@ -1,7 +1,8 @@
+---
+layout: post
 title: "Using Custom ActionBar Title Views"
-date: 2013-04-27 12:42
-categories: Android
-comments: true
+date: 2013-04-27 12:42:00 -0500
+categories: android
 ---
 ### The Problem
 The default ActionBar is good for most use cases, however some applications may require further customization to establish a brand. Customizing the ActionBar title may seem quite trivial, however, there are a couple of things that you can do to create an even more polished experience.

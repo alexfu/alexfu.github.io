@@ -1,7 +1,8 @@
+---
+layout: post
 title: "Managing Fragment States Manually"
-date: 2013-12-09 14:27
-categories: Android
-comments: true
+date: 2013-12-09 14:27:00 -0500
+categories: android
 ---
 If you find yourself in a bit of a sticky situation where you need to save Fragment state *manually*, thankfully Android has a simply way of accomplishing this.
 

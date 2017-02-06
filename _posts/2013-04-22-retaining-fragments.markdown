@@ -1,7 +1,8 @@
+---
+layout: post
 title: "Retaining Fragments in FragmentPagerAdapter"
-date: 2013-04-22 20:32:24
-categories: Android
-comments: true
+date: 2013-04-22 20:32:24 -0500
+categories: android
 ---
 The general pattern for using a [FragmentPagerAdapter][1] looks something like this...
 

@@ -1,13 +1,14 @@
+---
+layout: post
 title: "Customizing EdgeEffect"
-date: 2013-12-11 19:51
-categories: Android
-comments: true
+date: 2013-12-11 19:51:00 -0500
+categories: android
 ---
 If there's one thing Android is good for, it's being able to customize almost every aspect of your application, down to the nitty gritty. One area that some developers/designers may overlook when customizing is the EdgeEffect.
 
-The [EdgeEffect](http://developer.android.com/reference/android/widget/EdgeEffect.html) is an indicator to let the user know that he/she have reached the end of the scrolling container. You'll also know it as the blue overscroll glow... <!-- more -->
+The [EdgeEffect](http://developer.android.com/reference/android/widget/EdgeEffect.html) is an indicator to let the user know that he/she have reached the end of the scrolling container. You'll also know it as the blue overscroll glow.
 
-{% img http://cyrilmottier.com/media/2012/03/the-pull-to-refresh-an-anti-ui-pattern-on-android/edge_effect.jpg %}
+![overscroll](http://cyrilmottier.com/media/2012/03/the-pull-to-refresh-an-anti-ui-pattern-on-android/edge_effect.jpg)
 
 Unfortunately, customizing the color of the EdgeEffect is not obvious at all. In fact, Android has made it pretty clear that this [EdgeEffect should not be customizable](https://github.com/android/platform_frameworks_base/blob/master/core/java/android/widget/EdgeEffect.java#L139-L140) (either by accident or intentional) since the Drawable is private, there is no public method to change it, and it's final.
 
@@ -30,4 +31,4 @@ Now the other half is to actually implement this. Create your own ScrollView or 
 
 ... and don't forget to reference your custom scrolling widget from your XML layouts. You've now got a customized EdgeEffect...
 
-{% img http://i39.tinypic.com/r6zasl.png %}
+![custom overscroll](http://i39.tinypic.com/r6zasl.png)

@@ -1,10 +1,8 @@
-title: Android Auto-Versioning
-date: 2015-11-09 13:51:16
-categories: Android
-tags:
-  - Android
-  - Gradle
-comments: true
+---
+layout: post
+title: "Android Auto-Versioning"
+date: 2015-11-09 13:51:16 -0500
+categories: android
 ---
 This post is a continuation of my [previous post](/2015/07/16/Steamlining-releases) about using Gradle to streamline versioning into the build process so you can spend more time on what's important: **building your product**. The basic idea is to automate a versioning process that follows [semantic versioning](http://semver.org/).
 
