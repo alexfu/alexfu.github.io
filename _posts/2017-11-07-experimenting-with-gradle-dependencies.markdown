@@ -110,6 +110,35 @@ dependencies {
 }
 ```
 
+To take things a bit further, we can move everything out into a separate Gradle file so we end up with something like the following:
+
+**app/build.gradle**
+```
+android {
+  // config
+}
+apply from: "dependencies.gradle"
+```
+
+**app/dependencies.gradle**
+```
+def ui() {
+  dependencies.implementation "com.android.support:appcompat-v7:27.0.0"
+  dependencies.implementation "com.android.support.constraint:constraint-layout:1.1.0-beta3"
+  dependencies.implementation "com.android.support:design:27.0.0"
+}
+
+def network() {
+  dependencies.implementation "com.squareup.moshi:moshi-adapters:1.5.0"
+  dependencies.implementation "com.squareup.retrofit2:retrofit:2.3.0"
+}
+
+dependencies {
+  ui()
+  network()
+}
+```
+
 To summarize, we took a standard `dependencies` block and grouped the dependencies by feature. We then moved the declarations out into methods and leveraged the Gradle API to be able to access the same `DependencyHandler` API.
 
 **DISCLAIMER**: The method outlined above is completely experimental and may or may not be the best way, but it works pretty well for my purposes.
