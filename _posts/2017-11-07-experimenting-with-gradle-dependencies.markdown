@@ -110,7 +110,34 @@ dependencies {
 }
 ```
 
-To take things a bit further, we can move everything out into a separate Gradle file so we end up with something like the following:
+To take things a bit further, we can use Groovys' closure delegate feature to create our own DSL so we can avoid writing `dependencies` every time we need to declare a new dependency.
+
+```
+def dependencyGroup(Closure closure) {
+  closure.delegate = dependencies
+  return closure
+}
+
+def ui = dependencyGroup {
+  implementation "com.android.support:appcompat-v7:27.0.0"
+  implementation "com.android.support.constraint:constraint-layout:1.1.0-beta3"
+  implementation "com.android.support:design:27.0.0"
+}
+
+def network = dependencyGroup {
+  implementation "com.squareup.moshi:moshi-adapters:1.5.0"
+  implementation "com.squareup.retrofit2:retrofit:2.3.0"
+}
+
+dependencies {
+  ui()
+  network()
+}
+```
+
+*You can read more about delegates [here](http://groovy-lang.org/closures.html#closure-owner).*
+
+This looks great! There's just one last thing to do. To clean things up, we can move everything out into a separate Gradle file so our main `build.gradle` fie doesn't get too cluttered...
 
 **app/build.gradle**
 ```
@@ -122,15 +149,20 @@ apply from: "dependencies.gradle"
 
 **app/dependencies.gradle**
 ```
-def ui() {
-  dependencies.implementation "com.android.support:appcompat-v7:27.0.0"
-  dependencies.implementation "com.android.support.constraint:constraint-layout:1.1.0-beta3"
-  dependencies.implementation "com.android.support:design:27.0.0"
+def dependencyGroup(Closure closure) {
+  closure.delegate = dependencies
+  return closure
 }
 
-def network() {
-  dependencies.implementation "com.squareup.moshi:moshi-adapters:1.5.0"
-  dependencies.implementation "com.squareup.retrofit2:retrofit:2.3.0"
+def ui = dependencyGroup {
+  implementation "com.android.support:appcompat-v7:27.0.0"
+  implementation "com.android.support.constraint:constraint-layout:1.1.0-beta3"
+  implementation "com.android.support:design:27.0.0"
+}
+
+def network = dependencyGroup {
+  implementation "com.squareup.moshi:moshi-adapters:1.5.0"
+  implementation "com.squareup.retrofit2:retrofit:2.3.0"
 }
 
 dependencies {
@@ -139,6 +171,6 @@ dependencies {
 }
 ```
 
-To summarize, we took a standard `dependencies` block and grouped the dependencies by feature. We then moved the declarations out into methods and leveraged the Gradle API to be able to access the same `DependencyHandler` API.
+To summarize, we took a standard `dependencies` block and grouped the dependencies by feature. We then moved the declarations out into methods and leveraged the Gradle API to be able to access the same `DependencyHandler` API. Then we created our own `dependencyGroup` DSL using Groovys' closure delegate feature, which allowed us to write dependencies naturally.
 
 **DISCLAIMER**: The method outlined above is completely experimental and may or may not be the best way, but it works pretty well for my purposes.
