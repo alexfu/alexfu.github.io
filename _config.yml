@@ -33,3 +33,5 @@ exclude:
 twitter_username: alexfu914
 github_username:  alexfu
 google_analytics: UA-109369787-1
+disqus:
+  shortname: alexfublog
